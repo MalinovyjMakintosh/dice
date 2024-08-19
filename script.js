@@ -3,13 +3,14 @@ document.getElementById('rollBtn').addEventListener('click', function() {
     const diceFaceCount = diceFaces.length;
 
     const updateDice = (element, finalValue) => {
-        let frames = 20; // Количество кадров
+        const frames = 20; // Количество кадров
+        const intervalTime = 50; // Интервал времени между сменами (мс)
         let currentFrame = 0;
-        const intervalTime = 100; // Интервал времени между сменами (мс)
 
         const interval = setInterval(() => {
             element.innerText = diceFaces[Math.floor(Math.random() * diceFaceCount)];
             currentFrame++;
+
             if (currentFrame >= frames) {
                 clearInterval(interval);
                 element.innerText = finalValue;
@@ -32,7 +33,7 @@ document.getElementById('rollBtn').addEventListener('click', function() {
     updateDice(player1Dice, player1Roll);
     updateDice(player2Dice, player2Roll);
 
-    // Определяем победителя через 2 секунды
+    // Определяем победителя через 1 секунду после завершения анимации
     setTimeout(() => {
         let resultText;
 
@@ -45,5 +46,5 @@ document.getElementById('rollBtn').addEventListener('click', function() {
         }
 
         document.getElementById('resultText').innerText = resultText;
-    }, 2000); // Задержка на 2 секунды
+    }, 1000 + frames * intervalTime); // Задержка на время анимации плюс 1 секунда
 });
