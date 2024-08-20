@@ -6,38 +6,39 @@
     <title>Дуэль на Кубиках</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const tg = window.Telegram.WebApp;
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tg = window.Telegram.WebApp;
 
-            // Получаем информацию о пользователе
-            const user = tg.initDataUnsafe.user;
-            const username = user.username || 'Без имени';
-            const userId = user.id;
-            const photoUrl = user.photo_url || 'https://via.placeholder.com/40'; // placeholder если нет фото
+        // Получаем информацию о пользователе
+        const user = tg.initDataUnsafe.user;
+        const username = user.username || 'Без имени';
+        const userId = user.id;
+        const photoUrl = user.photo_url || 'https://via.placeholder.com/40'; // placeholder если нет фото
 
-            // Обновляем UI
-            document.getElementById('profileUsername').innerText = username;
-            document.getElementById('profileAvatar').src = photoUrl;
+        // Обновляем UI
+        document.getElementById('profileUsername').innerText = username;
+        document.getElementById('profileAvatar').src = photoUrl;
 
-            // Отправка данных на сервер
-            const data = {
-                id: userId,
-                username: username,
-                photo_url: photoUrl
-            };
+        // Отправка данных на сервер
+        const data = {
+            id: userId,
+            username: username,
+            photo_url: photoUrl
+        };
 
-            fetch('/your-server-endpoint', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then(response => response.json())
-              .then(result => console.log('Успешно отправлено:', result))
-              .catch(error => console.error('Ошибка при отправке:', error));
-        });
-    </script>
+        fetch('http://your-server-url/webapp_data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(response => response.json())
+          .then(result => console.log('Успешно отправлено:', result))
+          .catch(error => console.error('Ошибка при отправке:', error));
+    });
+</script>
+
     <style>
         .profile {
             position: absolute;
