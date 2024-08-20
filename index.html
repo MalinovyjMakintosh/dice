@@ -5,8 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Дуэль на Кубиках</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .profile {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile .username {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
+    <!-- Элемент для отображения никнейма -->
+    <div class="profile">
+        <span id="profileUsername" class="username">Ник пользователя</span>
+    </div>
+
     <div class="container">
         <h1>Дуэль на Кубиках</h1>
         <div class="players">
@@ -23,6 +47,15 @@
         <p id="resultText"></p>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Получаем параметры URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const tgUserName = urlParams.get('tgUserName');
+
+        // Обновляем никнейм в элементе профиля
+        if (tgUserName) {
+            document.getElementById('profileUsername').innerText = tgUserName;
+        }
+    </script>
 </body>
 </html>
