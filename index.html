@@ -5,6 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Дуэль на Кубиках</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tg = window.Telegram.WebApp;
+
+            // Получаем информацию о пользователе
+            const user = tg.initDataUnsafe.user;
+            const username = user.username || 'Без имени';
+            const userId = user.id;
+            const photoUrl = user.photo_url || 'https://via.placeholder.com/40'; // placeholder если нет фото
+
+            // Обновляем UI
+            document.getElementById('profileUsername').innerText = username;
+            document.getElementById('profileAvatar').src = photoUrl;
+
+            // Отправка данных на сервер
+            const data = {
+                id: userId,
+                username: username,
+                photo_url: photoUrl
+            };
+
+            fetch('/your-server-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(response => response.json())
+              .then(result => console.log('Успешно отправлено:', result))
+              .catch(error => console.error('Ошибка при отправке:', error));
+        });
+    </script>
     <style>
         .profile {
             position: absolute;
@@ -17,7 +50,12 @@
             border-radius: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
-
+        .profile img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
         .profile .username {
             font-size: 16px;
             font-weight: bold;
@@ -26,8 +64,9 @@
     </style>
 </head>
 <body>
-    <!-- Элемент для отображения никнейма -->
+    <!-- Иконка профиля -->
     <div class="profile">
+        <img id="profileAvatar" src="https://via.placeholder.com/40" alt="Аватар">
         <span id="profileUsername" class="username">Ник пользователя</span>
     </div>
 
@@ -47,15 +86,6 @@
         <p id="resultText"></p>
     </div>
 
-    <script>
-        // Получаем параметры URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const tgUserName = urlParams.get('tgUserName');
-
-        // Обновляем никнейм в элементе профиля
-        if (tgUserName) {
-            document.getElementById('profileUsername').innerText = tgUserName;
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
